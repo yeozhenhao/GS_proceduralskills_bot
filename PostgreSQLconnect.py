@@ -259,7 +259,7 @@ def saveplayertaskstodo_fromSQL_toCSV(): ##JUST IN CASE FUNCTION
             write = csv.writer(f)
             write.writerows(playertaskstodo_selected)
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)                                    ###NOTE: if you get Index error, open the CSV as notepad, then delete the last empty row. It is a known bug when exporting CSVs from SQL. Then it should be able to import flawlessly
+        print(error)                                    ###NOTE: if you get Index error, open the CSV as notepad, then delete the last empty row. It is a known bug when importing CSVs from CSVs which were exported from SQL. Then it should be able to import flawlessly
     finally:
         if conn is not None:
             conn.close()
