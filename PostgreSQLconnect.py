@@ -259,7 +259,7 @@ def saveplayertaskstodo_fromSQL_toCSV(): ##JUST IN CASE FUNCTION
             write = csv.writer(f)
             write.writerows(playertaskstodo_selected)
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        print(error)                                    ###NOTE: if you get Index error, open the CSV as notepad, then delete the last empty row. It is a known bug when exporting CSVs from SQL. Then it should be able to import flawlessly
     finally:
         if conn is not None:
             conn.close()
@@ -305,6 +305,7 @@ def import_playertaskstodo_fromCSV_toSQL(): ##JUST IN CASE FUNCTION
                     f"""
                     INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
                     VALUES ('{row[0]}','{row[1]}','{row[2]}','{row[3]}','{row[4]}','{row[5]}','{row[6]}','{row[7]}','{row[8]}','{row[9]}','{row[10]}','{row[11]}','{row[12]}','{row[13]}','{row[14]}')
+                    ON CONFLICT DO NOTHING
                     """
                 )
         print(f"{configdualbot.TASKSTODO_CSV} Dump onto SQL success!")
