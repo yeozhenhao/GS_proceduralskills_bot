@@ -4,7 +4,8 @@ from player import playertasks
 from player import tasksinfo
 
 gettasksinfo = f'{tasksinfo["*"]}\n\n' \
-               f'{tasksinfo["**"]}\n\n'
+               f'{tasksinfo["**"]}\n\n' \
+               f'{tasksinfo["***"]}\n\n'
 
 MESSAGE_SENT = 'Message sent!'
 MESSAGE_SENT_TO_GAMEMASTER = 'Message sent to the Game Master! You may now click other buttons in the main menu.'

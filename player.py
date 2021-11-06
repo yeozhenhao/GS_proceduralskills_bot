@@ -32,12 +32,13 @@ playertasks = {"1": "1. Arterial blood gas",
               "10": "10. Urinary catheterization",
               "11": "11. Venepuncture<b>*</b>",
               "12": "12. Bedside arterial doppler<b>*</b>",
-              "13": "13. Central line removal [includes Care of Peripherally Inserted Central Catheter (PICC)]",
-              "14": "14. Incision and Drainage (abscess)",
+              "13": "13. Central line removal [includes Care of Peripherally Inserted Central Catheter (PICC)]<b>***</b>",
+              "14": "14. Incision and Drainage (abscess)<b>***</b>",
               }
 
 tasksinfo = {"*": "<b>*</b> - These procedures can be done in clinic; bedside arterial Doppler - vascular clinic",
-                  "**": "<b>**</b> - Blood transfusion can be completed by participating in checking patient identity/blood pack identity with doctor/nurse – not necessarily connecting-up the blood transfusion"}
+             "**": "<b>**</b> - Blood transfusion can be completed by participating in checking patient identity/blood pack identity with doctor/nurse – not necessarily connecting-up the blood transfusion",
+             "***": "<b>***</b> - only need to observe. Note that endoscopy is not included this year because of COVID19 restrictions."}
 
 class Player():
     def __init__(self):
