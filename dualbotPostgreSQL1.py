@@ -53,6 +53,7 @@ def start_Angelbot(update: Update, context: CallbackContext) -> None:
         [InlineKeyboardButton(f"Complete Tasks", callback_data='completetasks'),
          InlineKeyboardButton(f"Add Tasks", callback_data='addtasks')],
         [InlineKeyboardButton(f"Task info", callback_data='infotasks')],
+        [InlineKeyboardButton(f"Completed Tasks", callback_data='completedtasks')],
         [InlineKeyboardButton(f"Feedback to Bot creator", callback_data='gamemastersupport')]
     ]
     reply_markup_Angel = InlineKeyboardMarkup(send_menu_Angel)
@@ -114,6 +115,11 @@ def viewcompleteTasks (update: Update, context: CallbackContext):
     update.callback_query.message.reply_text(messagesdualbot.getcompleteTasksMessage)
     return COMPLETETASKS
 
+def viewNumberofCompletedTasks (update: Update, context: CallbackContext):
+    playerName = update.callback_query.message.chat.username.lower()
+    update.callback_query.message.reply_text(f"{messagesdualbot.TASKS_COMPLETED(playerName, players)}\n\n{messagesdualbot.START_AGAIN}",parse_mode=ParseMode.HTML)
+    return ConversationHandler.END
+
 def sendaddTasks(update: Update, context: CallbackContext):
     playerName = update.message.chat.username.lower()
     if update.message.text:
@@ -152,7 +158,7 @@ def sendcompleteTasks(update: Update, context: CallbackContext):
         try:
             words = update.message.text.split()
             tempdata = players[playerName].taskstodo
-            if 0 < int(words[1]) <= int(tempdata[int(words[0])]):
+            if int(words[1]) > 0: ##<= int(tempdata[int(words[0])]) was removed to allow counter to go negative
                 tempdata[int(words[0])] = int(tempdata[int(words[0])]) - int(words[1])
                 players[playerName].taskstodo = tempdata
                 update.message.reply_text(
@@ -262,6 +268,7 @@ def main():
                     CallbackQueryHandler(viewcompleteTasks, pattern='completetasks'),
                     CallbackQueryHandler(viewaddTasks, pattern='addtasks'),
                     CallbackQueryHandler(viewTasksinfo, pattern='infotasks'),
+                    CallbackQueryHandler(viewNumberofCompletedTasks, pattern='completedtasks'),
                     CallbackQueryHandler(startGameMasterSupport, pattern='gamemastersupport'),
                 ],
             ADDTASKS: [MessageHandler(~Filters.command, sendaddTasks)],
