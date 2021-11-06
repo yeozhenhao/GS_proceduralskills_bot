@@ -1,4 +1,3 @@
-import config
 import csv
 import json
 import logging
@@ -21,24 +20,52 @@ def restricted(func):
     return wrapped
 
 
+playertasks = {"1": "1. Arterial blood gas",
+              "2": "2. Aseptic Blood Culture*",
+              "3": "3. Basic processes in theatre (maintain sterility, time out process, surgical gowning)",
+              "4": "4. Basic suturing skills",
+              "5": "5. Blood transfusion**",
+              "6": "6. Dispose of needles and sharps safely after venepuncture, Intravenous (IV) cannulation and other invasive procedures***",
+              "7": "7. Hand wash and Scrub",
+              "8": "8. Parenteral administration of drugs [including Intravenous (IV)/ Intramuscular (IM)/ Subcutaneous (SC) injections]",
+              "9": "9. Removal of surgical drains",
+              "10": "10. Urinary catheterization",
+              "11": "11. Venepuncture*",
+              "12": "12. Bedside arterial doppler*",
+              "13": "13. Central line removal [includes Care of Peripherally Inserted Central Catheter (PICC)]",
+              "14": "14. Incision and Drainage (abscess)",
+              }
+
+tasksinfo = {"*": "* - These procedures can be done in clinic; bedside arterial Doppler - vascular clinic",
+                  "**": "** - Blood transfusion can be completed by participating in checking patient identity/blood pack identity with doctor/nurse – not necessarily connecting-up the blood transfusion"}
+
 class Player():
     def __init__(self):
         self.username = None
         self.name = None ## not used
-        self.angel = None
-        self.mortal = None
-        self.chat_id = None
-        self.gender = None
-        self.interests = None
-        self.twotruthsonelie = None
-        self.introduction = None
+        # self.tasks = {"1", "1. Arterial blood gas",
+        #               "2", "2. Aseptic Blood Culture*",
+        #               "3", "3. Basic processes in theatre (maintain sterility, time out process, surgical gowning)",
+        #               "4", "4. Basic suturing skills",
+        #               "5", "5. Blood transfusion**",
+        #               "6", "6. Dispose of needles and sharps safely after venepuncture, Intravenous (IV) cannulation and other invasive procedures***",
+        #               "7", "7. Hand wash and Scrub",
+        #               "8", "8. Parenteral administration of drugs [including Intravenous (IV)/ Intramuscular (IM)/ Subcutaneous (SC) injections]",
+        #               "9", "9. Removal of surgical drains",
+        #               "10", "10. Urinary catheterization",
+        #               "11", "11. Venepuncture*",
+        #               "12", "12. Bedside arterial doppler*",
+        #               "13", "13. Central line removal [includes Care of Peripherally Inserted Central Catheter (PICC)]",
+        #               "14", "14. Incision and Drainage (abscess)",
+        #               }
+        self.taskstodo = [0, 1, 2, 2, 2, 1, 1, 3, 1, 1, 2, 3, 1, 1, 1]
 
 '''
 VERY VERY IMPT: 1st Column in CSV is the Player, 2nd Column is his/her Angel, 3rd Column is his/her Mortal, and the other columns must match the details of the Player in the 1st Column
 '''
 
 def loadPlayers(players: dict):
-    with open(config.PLAYERS_FILENAME) as csv_file:
+    with open(configdualbot.PLAYERS_FILENAME) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
@@ -77,44 +104,33 @@ def loadPlayers(players: dict):
     loadChatID(players)
 
 
-def validatePairings(players: dict):
-    logger.info(f'Processing {players.items()}.')
-    for _, player in players.items():
-        if player.angel.mortal.username != player.username or player.mortal.angel.username != player.username:
-            print(f'Error with {player.username} pairings')
-            logger.error(f'Error with {player.username} pairings')
-            exit(1)
-
-    logger.info(f'Validation complete, no issues with pairings.')
-
-
 # def savemortalUsername(players: dict): ##Important for mortal_command
 #     temp = {}
 #     for k, v in players.items():
 #         temp[k] = v.mortal.username
 #
-#     with open(config.MORTAL_USERNAME_JSON, 'w+') as f:
+#     with open(configdualbot.MORTAL_USERNAME_JSON, 'w+') as f:
 #         json.dump(temp, f)
 
-def saveChatID(players: dict):
+def saveTasks(players: dict):
     temp = []
     for k, v in players.items():
-        d = {"playerusername": k, "chat_id": players[k].chat_id}
+        d = {"playerusername": k, "tasks": players[k].chat_id}
         temp.append(d)
 
-    with open(config.CHAT_ID_JSON, 'w+') as f:
+    with open(configdualbot.TASKS_JSON, 'w+') as f:
         json.dump(temp, f)
 
-def loadChatID(players: dict):
+def loadTasks(players: dict):
     try:
-        with open(config.CHAT_ID_JSON, 'r') as f:
+        with open(configdualbot.TASKS_JSON, 'r') as f:
             temp = json.load(f)
             logger.info(temp)
             for player in temp:
                 playerName = player["playerusername"]
-                chatid = player["chat_id"]
-                players[playerName].chat_id = chatid
-                print (f"player {playerName} with chat_id {players[playerName].chat_id} has been loaded from local CHAT_ID_JSON")
+                tasks = player["tasks"]
+                players[playerName].tasks = tasks
+                print (f"player {playerName} with tasks {players[playerName].tasks} has been loaded from local TASKS_JSON")
 
     except:
         logger.warn('Fail to load chat ids')
