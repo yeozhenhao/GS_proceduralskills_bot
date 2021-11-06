@@ -56,7 +56,7 @@ def start_Angelbot(update: Update, context: CallbackContext) -> None:
         [InlineKeyboardButton(f"Feedback to Bot creator", callback_data='gamemastersupport')]
     ]
     reply_markup_Angel = InlineKeyboardMarkup(send_menu_Angel)
-    update.message.reply_text(f'Hi {update.message.chat.first_name}! {messagesdualbot.HELP_TEXT_ANGEL} ++++++++{update.message.chat.first_name}! {players["yeozhenhao"].username}{players["yeozhenhao"].taskstodo}',
+    update.message.reply_text(f'Hi {update.message.chat.first_name}! {messagesdualbot.HELP_TEXT_ANGEL}',
                               reply_markup=reply_markup_Angel)
     return CHOOSING
 
