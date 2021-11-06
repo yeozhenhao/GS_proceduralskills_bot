@@ -40,7 +40,7 @@ def YOUR_CURRENT_TASKS (playerName, players: dict):
     f'\n{playertasks["14"]} <b>x{players[playerName].taskstodo[14]}</b>'
 
 def TASKS_COMPLETED (playerName, players: dict):
-    return f'Your current tasks:'\
+    return f'Your completed tasks:'\
     f'\n{playertasks["1"]} <b>x{1 - players[playerName].taskstodo[1]}</b>' \
     f'\n{playertasks["2"]} <b>x{2 - players[playerName].taskstodo[2]}</b>' \
     f'\n{playertasks["3"]} <b>x{2 - players[playerName].taskstodo[3]}</b>' \
