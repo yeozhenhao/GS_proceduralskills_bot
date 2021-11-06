@@ -34,7 +34,7 @@ ANGEL_BOT_TOKEN = configdualbot.ANGEL_BOT_TOKEN
 herokuappname = configdualbot.herokuappname
 
 players = collections.defaultdict(player.Player)
-# PostgreSQLconnect.loadPlayers_fromSQL(players)
+PostgreSQLconnect.loadPlayers_fromSQL(players)
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -45,8 +45,8 @@ def start_Angelbot(update: Update, context: CallbackContext) -> None:
     playerName = update.message.chat.username.lower()
     if players[playerName].username is None:
         players[playerName].username = playerName
-        players[playerName].taskstodo[0] = playerName
-        update.message.reply_text(f'{update.message.chat.first_name}! {players["yeozhenhao"].username}{players["yeozhenhao"].taskstodo}')
+        players[playerName].taskstodo = [playerName, 1, 2, 2, 2, 1, 1, 3, 1, 1, 2, 3, 1, 1, 1]
+        update.message.reply_text(f'Welcome!')
 
     send_menu_Angel = [
         [InlineKeyboardButton(f"My Tasks", callback_data='mytasks')],
@@ -56,7 +56,7 @@ def start_Angelbot(update: Update, context: CallbackContext) -> None:
         [InlineKeyboardButton(f"Feedback to Bot creator", callback_data='gamemastersupport')]
     ]
     reply_markup_Angel = InlineKeyboardMarkup(send_menu_Angel)
-    update.message.reply_text(f'Hi {update.message.chat.first_name}! {messagesdualbot.HELP_TEXT_ANGEL}',
+    update.message.reply_text(f'Hi {update.message.chat.first_name}! {messagesdualbot.HELP_TEXT_ANGEL} ++++++++{update.message.chat.first_name}! {players["yeozhenhao"].username}{players["yeozhenhao"].taskstodo}',
                               reply_markup=reply_markup_Angel)
     return CHOOSING
 
@@ -70,27 +70,27 @@ def help_command_ANGEL(update: Update, context: CallbackContext) -> None:
 
 @player.restricted
 def reload_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /reloadchatids is issued."""
+    """Send a message when the command /reloadtaskstodo is issued."""
     PostgreSQLconnect.create_sql_players()
-    PostgreSQLconnect.import_playertaskstodo_fromJSON_toSQL()
+    PostgreSQLconnect.import_playertaskstodo_fromCSV_toSQL()
     logger.info(f'Player taskstodo have been imported from local JSON into SQL server')
     update.message.reply_text(f'Players taskstodo reloaded into taskstodo SQL!')
 
 @player.restricted
-def savechatids_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /savechatids is issued."""
+def savetaskstodo_command(update: Update, context: CallbackContext) -> None:
+    """Send a message when the command /savetaskstodo is issued."""
     PostgreSQLconnect.saveplayertaskstodo_toSQL(players)
     logger.info(f'Player taskstodo have been saved in playertaskstodo SQL')
     update.message.reply_text(f'Player taskstodo are saved in playertaskstodo SQL!')
 
 @player.restricted
-def savechatids_toJSON_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /downloadchatids is issued."""
+def savetaskstodo_toCSV_command(update: Update, context: CallbackContext) -> None:
+    """Send a message when the command /downloadtaskstodo is issued."""
     PostgreSQLconnect.saveplayertaskstodo_toSQL(players)
     logger.info(f'Player chat ids have been saved in playerchatids SQL')
-    PostgreSQLconnect.saveplayertaskstodo_fromSQL_toJSON()
-    logger.info(f'Player taskstodo are downloaded into local JSON!')
-    update.message.reply_text(f'Player taskstodo are downloaded into local JSON!')
+    PostgreSQLconnect.saveplayertaskstodo_fromSQL_toCSV()
+    logger.info(f'Player taskstodo are downloaded into local CSV!')
+    update.message.reply_text(f'Player taskstodo are downloaded into local CSV!')
 
 
 
@@ -246,8 +246,8 @@ def main():
     # on different commands - answer in Telegram
     dispatcherAngel.add_handler(CommandHandler("help", help_command_ANGEL))
     dispatcherAngel.add_handler(CommandHandler("reloadtaskstodo", reload_command))
-    dispatcherAngel.add_handler(CommandHandler("savetaskstodo", savechatids_command))
-    dispatcherAngel.add_handler(CommandHandler("downloadtaskstodo", savechatids_toJSON_command))
+    dispatcherAngel.add_handler(CommandHandler("savetaskstodo", savetaskstodo_command))
+    dispatcherAngel.add_handler(CommandHandler("downloadtaskstodo", savetaskstodo_toCSV_command))
 
 
     conv_handler_Angel = ConversationHandler(

@@ -2,7 +2,7 @@ import os
 
 ANGEL_BOT_TOKEN = os.environ['ANGEL_BOT_TOKEN']
 # PLAYERS_FILENAME = os.environ['PLAYERS_FILENAME']
-TASKSTODO_JSON = os.environ['TASKSTODO_JSON']
+TASKSTODO_CSV = os.environ['TASKSTODO_CSV']
 herokuappname = os.environ['herokuappname']  ##for bot to listen to heroku Webhook
 dbhost = os.environ['dbhost']
 dbname = os.environ['dbname']  ##for connecting to PostgreSQL database on heroku
