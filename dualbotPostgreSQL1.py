@@ -99,11 +99,11 @@ def savetaskstodo_toCSV_command(update: Update, context: CallbackContext) -> Non
 
 def viewmyTasks (update: Update, context: CallbackContext):
     playerName = update.callback_query.message.chat.username.lower()
-    update.callback_query.message.reply_text(f"{messagesdualbot.YOUR_CURRENT_TASKS(playerName, players)}\n\n{messagesdualbot.START_AGAIN}",parse_mode=ParseMode.HTML)
+    update.callback_query.message.reply_text(f"{messagesdualbot.YOUR_CURRENT_TASKS(playerName, players)}\n\n{messagesdualbot.START_AGAIN}", parse_mode=ParseMode.HTML)
     return ConversationHandler.END
 
 def viewTasksinfo (update: Update, context: CallbackContext):
-    update.callback_query.message.reply_text(messagesdualbot.gettasksinfo)
+    update.callback_query.message.reply_text(messagesdualbot.gettasksinfo, parse_mode=ParseMode.HTML)
     return CHOOSING
 
 def viewaddTasks (update: Update, context: CallbackContext):
