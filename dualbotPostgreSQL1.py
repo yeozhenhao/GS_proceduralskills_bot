@@ -130,7 +130,7 @@ def sendaddTasks(update: Update, context: CallbackContext):
                 tempdata[int(words[0])] = int(tempdata[int(words[0])]) + int(words[1])
                 players[playerName].taskstodo = tempdata
                 update.message.reply_text(
-                    f"<b>{playerName}</b> added task <b>{player.playertasks[words[0]]}</b> for <b>{words[1]}</b> times!\n\n"
+                    f"You added task <b>{player.playertasks[words[0]]}</b> for <b>{words[1]}</b> times!\n\n"
                     f"You may now click other buttons in the menu",
                     parse_mode=ParseMode.HTML
                 )
@@ -158,14 +158,11 @@ def sendcompleteTasks(update: Update, context: CallbackContext):
         try:
             words = update.message.text.split()
             tempdata = players[playerName].taskstodo
-            update.message.reply_text(
-                f"{tempdata}"
-            )
             if int(words[1]) > 0: ##<= int(tempdata[int(words[0])]) was removed to allow counter to go negative
                 tempdata[int(words[0])] = int(tempdata[int(words[0])]) - int(words[1])
                 players[playerName].taskstodo = tempdata
                 update.message.reply_text(
-                    f"<b>{playerName}</b> completed task <b>{player.playertasks[words[0]]}</b> for <b>{words[1]}</b> times!\n\n"
+                    f"You completed task <b>{player.playertasks[words[0]]}</b> for <b>{words[1]}</b> times!\n\n"
                     f"You may now click other buttons in the menu",
                     parse_mode=ParseMode.HTML
                 )
@@ -284,16 +281,16 @@ def main():
     dispatcherAngel.add_handler(conv_handler_Angel)
 
     # Start the Bot
-    updaterAngel.start_polling()
+    # updaterAngel.start_polling()
     '''
     The next paragraph of codes replace "updater.start_polling()" 
     to enable listening to webhooks on heroku. See https://towardsdatascience.com/how-to-deploy-a-telegram-bot-using-heroku-for-free-9436f89575d2 for information.
     '''
 
-    # updaterAngel.start_webhook(listen="0.0.0.0",
-    #                       port=PORT,
-    #                       url_path=ANGEL_BOT_TOKEN,
-    #                       webhook_url=f'https://{herokuappname}.herokuapp.com/{ANGEL_BOT_TOKEN}')
+    updaterAngel.start_webhook(listen="0.0.0.0",
+                          port=PORT,
+                          url_path=ANGEL_BOT_TOKEN,
+                          webhook_url=f'https://{herokuappname}.herokuapp.com/{ANGEL_BOT_TOKEN}')
 
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
@@ -306,6 +303,6 @@ if __name__ == '__main__':
     # try:
         main()
     # finally:
-    #     PostgreSQLconnect.saveplayertaskstodo_toSQL(players)
-    #     print(f'Player chat ids have been saved in playerchatids SQL')
-    #     logger.info(f'Player chat ids have been saved in playerchatids SQL')
+        PostgreSQLconnect.saveplayertaskstodo_toSQL(players)
+        print(f'Player taskstodo have been saved in playertaskstodo SQL')
+        logger.info(f'Player taskstodo have been saved in playertaskstodo SQL')
