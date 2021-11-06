@@ -142,7 +142,7 @@ def sendaddTasks(update: Update, context: CallbackContext):
                 )
                 return ADDTASKS
         except:
-            update.message.reply_text(f"Sorry, please send messages in the correct format e.g. '1 1' if you wish to task no. 1 for one time.\n\n{messagesdualbot.typeCanceltogoback}")
+            update.message.reply_text(f"Sorry, please send messages in the correct format e.g. '1 1' if you wish to add task no. 1 for one time.\n\n{messagesdualbot.typeCanceltogoback}")
             return ADDTASKS
     else:
         update.message.reply_text(
@@ -158,6 +158,9 @@ def sendcompleteTasks(update: Update, context: CallbackContext):
         try:
             words = update.message.text.split()
             tempdata = players[playerName].taskstodo
+            update.message.reply_text(
+                f"{tempdata}"
+            )
             if int(words[1]) > 0: ##<= int(tempdata[int(words[0])]) was removed to allow counter to go negative
                 tempdata[int(words[0])] = int(tempdata[int(words[0])]) - int(words[1])
                 players[playerName].taskstodo = tempdata
@@ -169,7 +172,7 @@ def sendcompleteTasks(update: Update, context: CallbackContext):
                 logger.info(f"{playerName} added task no. {words[0]} for {words[1]} times!")
             else:
                 update.message.reply_text(
-                    f"Did you type wrongly? Please type a value between 0 and the number of times you are required to complete.\n\n{messagesdualbot.typeCanceltogoback}",
+                    f"Did you type wrongly? Please type values more than zero.\n\n{messagesdualbot.typeCanceltogoback}",
                     parse_mode=ParseMode.HTML
                 )
                 return COMPLETETASKS
@@ -281,16 +284,16 @@ def main():
     dispatcherAngel.add_handler(conv_handler_Angel)
 
     # Start the Bot
-    # updaterAngel.start_polling()
+    updaterAngel.start_polling()
     '''
     The next paragraph of codes replace "updater.start_polling()" 
     to enable listening to webhooks on heroku. See https://towardsdatascience.com/how-to-deploy-a-telegram-bot-using-heroku-for-free-9436f89575d2 for information.
     '''
 
-    updaterAngel.start_webhook(listen="0.0.0.0",
-                          port=PORT,
-                          url_path=ANGEL_BOT_TOKEN,
-                          webhook_url=f'https://{herokuappname}.herokuapp.com/{ANGEL_BOT_TOKEN}')
+    # updaterAngel.start_webhook(listen="0.0.0.0",
+    #                       port=PORT,
+    #                       url_path=ANGEL_BOT_TOKEN,
+    #                       webhook_url=f'https://{herokuappname}.herokuapp.com/{ANGEL_BOT_TOKEN}')
 
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,

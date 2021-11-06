@@ -170,7 +170,7 @@ def loadPlayers_fromSQL(players: dict): ##NOTE: this also loads the chat ids fro
         playerlist_selected = cur.fetchall()
         for row in playerlist_selected:
             playerName = row[0].strip().lower()  ##Note: Player is in 1st column. Angel is in 2nd column, Mortal is in 3rd column.
-            taskstodo = row
+            taskstodo = list(row)
 
             players[playerName].username = playerName
             players[playerName].taskstodo = taskstodo
