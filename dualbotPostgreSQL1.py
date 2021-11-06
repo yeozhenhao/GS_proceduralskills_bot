@@ -274,16 +274,16 @@ def main():
     dispatcherAngel.add_handler(conv_handler_Angel)
 
     # Start the Bot
-    updaterAngel.start_polling()
+    # updaterAngel.start_polling()
     '''
     The next paragraph of codes replace "updater.start_polling()" 
     to enable listening to webhooks on heroku. See https://towardsdatascience.com/how-to-deploy-a-telegram-bot-using-heroku-for-free-9436f89575d2 for information.
     '''
 
-    # updaterAngel.start_webhook(listen="0.0.0.0",
-    #                       port=PORT,
-    #                       url_path=ANGEL_BOT_TOKEN,
-    #                       webhook_url=f'https://{herokuappname}.herokuapp.com/{ANGEL_BOT_TOKEN}')
+    updaterAngel.start_webhook(listen="0.0.0.0",
+                          port=PORT,
+                          url_path=ANGEL_BOT_TOKEN,
+                          webhook_url=f'https://{herokuappname}.herokuapp.com/{ANGEL_BOT_TOKEN}')
 
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
