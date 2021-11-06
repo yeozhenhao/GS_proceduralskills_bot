@@ -63,5 +63,5 @@ ERROR_CHAT_ID = f'Sorry an error occurred please type /start again'
 
 def getSupportMessage():
     return f"Facing an issue? Got a suggestion?\n\n"\
-           f'Please type a description of your problem or feedback to be sent to the Game Master.\n\n' \
+           f'Please type a description of your problem or feedback to be sent to the developer.\n\n' \
            f"Type /cancel to go back to the main menu."
