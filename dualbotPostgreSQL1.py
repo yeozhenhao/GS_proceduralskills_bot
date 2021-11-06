@@ -18,7 +18,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKe
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, ConversationHandler, \
     CallbackQueryHandler
 
-GAMEMASTERSUPPORT, CHOOSING, ADDTASKS, REMOVETASKS = range(4)
+CHOOSING, GAMEMASTERSUPPORT, ADDTASKS, COMPLETETASKS = range(4)
 
 # Enable logging
 logging.basicConfig(
@@ -45,6 +45,7 @@ def start_Angelbot(update: Update, context: CallbackContext) -> None:
     playerName = update.message.chat.username.lower()
     if players[playerName].username is None:
         players[playerName].username = playerName
+        players[playerName].taskstodo[0] = playerName
         update.message.reply_text(f'{update.message.chat.first_name}! {players["yeozhenhao"].username}{players["yeozhenhao"].taskstodo}')
 
     send_menu_Angel = [
@@ -56,7 +57,7 @@ def start_Angelbot(update: Update, context: CallbackContext) -> None:
     ]
     reply_markup_Angel = InlineKeyboardMarkup(send_menu_Angel)
     update.message.reply_text(f'Hi {update.message.chat.first_name}! {messagesdualbot.HELP_TEXT_ANGEL}',
-                              reply_markup=reply_markup_Angel, parse_mode=ParseMode.HTML)
+                              reply_markup=reply_markup_Angel)
     return CHOOSING
 
 
@@ -93,18 +94,15 @@ def savechatids_toJSON_command(update: Update, context: CallbackContext) -> None
 
 
 
-'''
-/mortal command is replaced with InlineKeyboardButton "Who is my mortal?". Ignore code below
-'''
 
 
 def viewmyTasks (update: Update, context: CallbackContext):
     playerName = update.callback_query.message.chat.username.lower()
-    update.callback_query.message.reply_text(f"{messagesdualbot.YOUR_CURRENT_TASKS(playerName)}\n\n{messagesdualbot.START_AGAIN}")
+    update.callback_query.message.reply_text(f"{messagesdualbot.YOUR_CURRENT_TASKS(playerName, players)}\n\n{messagesdualbot.START_AGAIN}",parse_mode=ParseMode.HTML)
     return ConversationHandler.END
 
 def viewTasksinfo (update: Update, context: CallbackContext):
-    update.callback_query.message.reply_text(f"messagesdualbot.gettasksinfo")
+    update.callback_query.message.reply_text(messagesdualbot.gettasksinfo)
     return CHOOSING
 
 def viewaddTasks (update: Update, context: CallbackContext):
@@ -114,31 +112,32 @@ def viewaddTasks (update: Update, context: CallbackContext):
 
 def viewcompleteTasks (update: Update, context: CallbackContext):
     update.callback_query.message.reply_text(messagesdualbot.getcompleteTasksMessage)
-    return REMOVETASKS
+    return COMPLETETASKS
 
 def sendaddTasks(update: Update, context: CallbackContext):
     playerName = update.message.chat.username.lower()
-    words = update.message.text.split()
-    x = words[0]
-    y = words[1]
-    update.message.reply_text(
-        f"<b>{x}</b> {y}"
-    )
     if update.message.text:
         try:
             words = update.message.text.split()
             tempdata = players[playerName].taskstodo
-            tempdata[int(words[0])] = int(tempdata[int(words[0])]) + int(words[1])
-            players[playerName].taskstodo = tempdata
-            update.message.reply_text(
-                f"<b>{playerName}</b> added task no. <b>{words[0]}</b> for <b>{words[0]}</b> times!\n\n"
-                f"You may now click other buttons in the menu",
-                parse_mode=ParseMode.HTML
-            )
-            logger.info(f"{playerName} added task no. {words[0]} for {words[0]} times!")
+            if int(words[1]) > 0:
+                tempdata[int(words[0])] = int(tempdata[int(words[0])]) + int(words[1])
+                players[playerName].taskstodo = tempdata
+                update.message.reply_text(
+                    f"<b>{playerName}</b> added task <b>{player.playertasks[words[0]]}</b> for <b>{words[1]}</b> times!\n\n"
+                    f"You may now click other buttons in the menu",
+                    parse_mode=ParseMode.HTML
+                )
+                logger.info(f"{playerName} added task no. {words[0]} for {words[1]} times!")
+            else:
+                update.message.reply_text(
+                    f"Did you type wrongly? Please type values more than 0.\n\n{messagesdualbot.typeCanceltogoback}",
+                    parse_mode=ParseMode.HTML
+                )
+                return ADDTASKS
         except:
-            update.message.reply_text(f"Sorry, please send messages in the correct format e.g. '1 1' if you wish to task no. 1 for one time.")
-            return CHOOSING
+            update.message.reply_text(f"Sorry, please send messages in the correct format e.g. '1 1' if you wish to task no. 1 for one time.\n\n{messagesdualbot.typeCanceltogoback}")
+            return ADDTASKS
     else:
         update.message.reply_text(
             f"Sorry, please send messages in text only.",
@@ -151,19 +150,26 @@ def sendcompleteTasks(update: Update, context: CallbackContext):
     playerName = update.message.chat.username.lower()
     if update.message.text:
         try:
-            words = update.message.text.split
+            words = update.message.text.split()
             tempdata = players[playerName].taskstodo
-            tempdata[int(words[0])] = int(tempdata[int(words[0])]) - int(words[1])
-            players[playerName].taskstodo = tempdata
-            update.message.reply_text(
-                f"<b>{playerName}</b> completed task no.n <b>{words[0]}</b> for <b>{words[0]}</b> times!\n\n"
-                f"You may now click other buttons in the menu",
-                parse_mode=ParseMode.HTML
-            )
-            logger.info(f"{playerName} added task no. {words[0]} for {words[0]} times!")
+            if 0 < int(words[1]) <= int(tempdata[int(words[0])]):
+                tempdata[int(words[0])] = int(tempdata[int(words[0])]) - int(words[1])
+                players[playerName].taskstodo = tempdata
+                update.message.reply_text(
+                    f"<b>{playerName}</b> completed task <b>{player.playertasks[words[0]]}</b> for <b>{words[1]}</b> times!\n\n"
+                    f"You may now click other buttons in the menu",
+                    parse_mode=ParseMode.HTML
+                )
+                logger.info(f"{playerName} added task no. {words[0]} for {words[1]} times!")
+            else:
+                update.message.reply_text(
+                    f"Did you type wrongly? Please type a value between 0 and the number of times you are required to complete.\n\n{messagesdualbot.typeCanceltogoback}",
+                    parse_mode=ParseMode.HTML
+                )
+                return COMPLETETASKS
         except:
-            update.message.reply_text(f"Sorry, please send messages in the correct format e.g. '1 1' if you have completed task no. 1 one time.")
-            return CHOOSING
+            update.message.reply_text(f"Sorry, please type again in the correct format e.g. '1 1' if you have completed task no. 1 one time.\n\n{messagesdualbot.typeCanceltogoback}")
+            return COMPLETETASKS
     else:
         update.message.reply_text(
             f"Sorry, please send messages in text only.",
@@ -190,9 +196,7 @@ def startGameMasterSupport (update: Update, context: CallbackContext):
     update.callback_query.message.reply_text(messagesdualbot.getSupportMessage())
     return GAMEMASTERSUPPORT
 
-'''
-Note: All support texts will be sent to GameMaster through Mortal Bot
-'''
+
 
 def sendGameMasterAngelbot(update: Update, context: CallbackContext, bot=angelbot):
     playerName = update.message.chat.username.lower()
@@ -240,7 +244,6 @@ def main():
     # Get the dispatcher to register handlers
     dispatcherAngel = updaterAngel.dispatcher
     # on different commands - answer in Telegram
-    dispatcherAngel.add_handler(CommandHandler("start", start_Angelbot))
     dispatcherAngel.add_handler(CommandHandler("help", help_command_ANGEL))
     dispatcherAngel.add_handler(CommandHandler("reloadtaskstodo", reload_command))
     dispatcherAngel.add_handler(CommandHandler("savetaskstodo", savechatids_command))
@@ -255,14 +258,14 @@ def main():
         states={
             CHOOSING:
                 [
-                    # CallbackQueryHandler(viewmyTasks, pattern='mytasks'),
-                    # CallbackQueryHandler(viewcompleteTasks, pattern='completetasks'),
+                    CallbackQueryHandler(viewmyTasks, pattern='mytasks'),
+                    CallbackQueryHandler(viewcompleteTasks, pattern='completetasks'),
                     CallbackQueryHandler(viewaddTasks, pattern='addtasks'),
-                    CallbackQueryHandler(viewTasksinfo, pattern='infotasks')
-                    # CallbackQueryHandler(startGameMasterSupport, pattern='gamemastersupport') #### DO NOT ADD A , HERE
+                    CallbackQueryHandler(viewTasksinfo, pattern='infotasks'),
+                    CallbackQueryHandler(startGameMasterSupport, pattern='gamemastersupport'),
                 ],
-            # ADDTASKS: [MessageHandler(~Filters.command, sendaddTasks)],
-            # REMOVETASKS: [MessageHandler(~Filters.command, sendcompleteTasks)],
+            ADDTASKS: [MessageHandler(~Filters.command, sendaddTasks)],
+            COMPLETETASKS: [MessageHandler(~Filters.command, sendcompleteTasks)],
             GAMEMASTERSUPPORT: [MessageHandler(~Filters.command, sendGameMasterAngelbot)]
         },
         fallbacks=[CommandHandler('cancel', cancel)],
