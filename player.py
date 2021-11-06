@@ -21,23 +21,23 @@ def restricted(func):
 
 
 playertasks = {"1": "1. Arterial blood gas",
-              "2": "2. Aseptic Blood Culture*",
+              "2": "2. Aseptic Blood Culture<b>*</b>",
               "3": "3. Basic processes in theatre (maintain sterility, time out process, surgical gowning)",
               "4": "4. Basic suturing skills",
-              "5": "5. Blood transfusion**",
-              "6": "6. Dispose of needles and sharps safely after venepuncture, Intravenous (IV) cannulation and other invasive procedures***",
+              "5": "5. Blood transfusion<b>**</b>",
+              "6": "6. Dispose of needles and sharps safely after venepuncture, Intravenous (IV) cannulation and other invasive procedures<b>***</b>",
               "7": "7. Hand wash and Scrub",
               "8": "8. Parenteral administration of drugs [including Intravenous (IV)/ Intramuscular (IM)/ Subcutaneous (SC) injections]",
               "9": "9. Removal of surgical drains",
               "10": "10. Urinary catheterization",
-              "11": "11. Venepuncture*",
-              "12": "12. Bedside arterial doppler*",
+              "11": "11. Venepuncture<b>*</b>",
+              "12": "12. Bedside arterial doppler<b>*</b>",
               "13": "13. Central line removal [includes Care of Peripherally Inserted Central Catheter (PICC)]",
               "14": "14. Incision and Drainage (abscess)",
               }
 
-tasksinfo = {"*": "* - These procedures can be done in clinic; bedside arterial Doppler - vascular clinic",
-                  "**": "** - Blood transfusion can be completed by participating in checking patient identity/blood pack identity with doctor/nurse – not necessarily connecting-up the blood transfusion"}
+tasksinfo = {"*": "<b>*</b> - These procedures can be done in clinic; bedside arterial Doppler - vascular clinic",
+                  "**": "<b>**</b> - Blood transfusion can be completed by participating in checking patient identity/blood pack identity with doctor/nurse – not necessarily connecting-up the blood transfusion"}
 
 class Player():
     def __init__(self):
