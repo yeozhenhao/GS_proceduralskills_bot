@@ -202,12 +202,13 @@ def saveplayertaskstodo_fromSQL_toCSV(): ##JUST IN CASE FUNCTION
         # create table one by one
         cur.execute(command)
         # close communication with the PostgreSQL database server
-        print("Selecting rows from playerchatids table using cursor.fetchall")
+        print("Selecting rows from playertaskstodo table using cursor.fetchall")
         playertaskstodo_selected = cur.fetchall()
-        print(playertaskstodo_selected)
+        # print(playertaskstodo_selected)
         with open(configdualbot.TASKSTODO_CSV, 'w+', newline = '') as f:
             write = csv.writer(f)
             write.writerows(playertaskstodo_selected)
+        print("Exported CSV from playertaskstodo table using cursor.fetchall")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)                                    ###NOTE: if you get Index error, open the CSV as notepad, then delete the last empty row. It is a known bug when importing CSVs from CSVs which were exported from SQL. Then it should be able to import flawlessly
     finally:
