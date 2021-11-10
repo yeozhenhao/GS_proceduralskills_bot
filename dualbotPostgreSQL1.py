@@ -72,7 +72,7 @@ def help_command_ANGEL(update: Update, context: CallbackContext) -> None:
 @player.restricted
 def reload_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /reloadtaskstodo is issued."""
-    PostgreSQLconnect.create_sql_players()
+    # PostgreSQLconnect.create_sql_players()
     PostgreSQLconnect.import_playertaskstodo_fromCSV_toSQL()
     logger.info(f'Player taskstodo have been imported from local JSON into SQL server')
     update.message.reply_text(f'Players taskstodo reloaded into taskstodo SQL!')

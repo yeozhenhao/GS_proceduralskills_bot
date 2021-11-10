@@ -124,32 +124,7 @@ def create_sql_players():
             conn.close()
 
 
-# def import_players_from_csv():
-#     try:
-#         conn = psycopg2.connect(host=configdualbot.dbhost, port=5432, database=configdualbot.dbname,
-#                                 user=configdualbot.dbuser, password=configdualbot.dbpassword)
-#         cur = conn.cursor()
-#         # create table one by one
-#         with open(configdualbot.PLAYERS_FILENAME, 'r') as f:
-#             reader = csv.reader(f, delimiter=',')
-#             next(reader)  # Skip the header row.
-#             for row in reader:
-#                 cur.execute(
-#                     f"""
-#                     INSERT INTO playerlist VALUES ('{row[0]}','{row[1]}','{row[2]}','{row[3]}','{row[4]}','{row[5]}','{row[6]}')
-#                     ON CONFLICT DO NOTHING
-#                     """
-#                 )
-#         # close communication with the PostgreSQL database server
-#         cur.close()
-#         # commit the changes
-#         conn.commit()
-#         print (f"PLAYERS_FILENAME imported successfully into SQL database")
-#     except (Exception, psycopg2.DatabaseError) as error:
-#         print(error)
-#     finally:
-#         if conn is not None:
-#             conn.close()
+
 
 
 def loadPlayers_fromSQL(players: dict): ##NOTE: this also loads the chat ids from playerchatids SQL
@@ -189,33 +164,6 @@ def saveplayertaskstodo_toSQL(players: dict): ##USE THIS INSTEAD OF ABOVE FUNCTI
         conn = psycopg2.connect(host=configdualbot.dbhost, port=5432, database=configdualbot.dbname,
                                 user=configdualbot.dbuser, password=configdualbot.dbpassword)
         cur = conn.cursor()
-        command1 = (
-            f"""
-            DROP TABLE IF EXISTS
-            playertaskstodo;
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS playertaskstodo(
-                    playerusername VARCHAR(255) PRIMARY KEY,
-                    task1 INTEGER NULL,
-                    task2 INTEGER NULL,
-                    task3 INTEGER NULL,
-                    task4 INTEGER NULL,
-                    task5 INTEGER NULL,
-                    task6 INTEGER NULL,
-                    task7 INTEGER NULL,
-                    task8 INTEGER NULL,
-                    task9 INTEGER NULL,
-                    task10 INTEGER NULL,
-                    task11 INTEGER NULL,
-                    task12 INTEGER NULL,
-                    task13 INTEGER NULL,
-                    task14 INTEGER NULL)
-        """,
-        )
-        for commands in command1:
-            cur.execute(commands)
-        print("Command 1 success!")
         for k, v in players.items():
             # d = {"playerusername": k, "task1": f"{players[k].taskstodo}"}
             x = players[k].taskstodo
@@ -223,6 +171,9 @@ def saveplayertaskstodo_toSQL(players: dict): ##USE THIS INSTEAD OF ABOVE FUNCTI
                 f"""
                 INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
                 VALUES ({"'" + "','".join(map(str, x)) + "'"})
+                ON CONFLICT (playerusername) DO UPDATE 
+                SET (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
+                = ({"'" + "','".join(map(str, x)) + "'"});
                 """
             )
             print(x)
@@ -255,7 +206,7 @@ def saveplayertaskstodo_fromSQL_toCSV(): ##JUST IN CASE FUNCTION
         print("Selecting rows from playerchatids table using cursor.fetchall")
         playertaskstodo_selected = cur.fetchall()
         print(playertaskstodo_selected)
-        with open(configdualbot.TASKSTODO_CSV, 'w+') as f:
+        with open(configdualbot.TASKSTODO_CSV, 'w+', newline = '') as f:
             write = csv.writer(f)
             write.writerows(playertaskstodo_selected)
     except (Exception, psycopg2.DatabaseError) as error:
@@ -269,45 +220,28 @@ def import_playertaskstodo_fromCSV_toSQL(): ##JUST IN CASE FUNCTION
         conn = psycopg2.connect(host=configdualbot.dbhost, port=5432, database=configdualbot.dbname,
                                 user=configdualbot.dbuser, password=configdualbot.dbpassword)
         cur = conn.cursor()
-        # create table one by one
-        command1 = (
-            f"""
-            DROP TABLE IF EXISTS
-            playertaskstodo;
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS playertaskstodo(
-                                playerusername VARCHAR(255) PRIMARY KEY,
-                                task1 INTEGER NULL,
-                                task2 INTEGER NULL,
-                                task3 INTEGER NULL,
-                                task4 INTEGER NULL,
-                                task5 INTEGER NULL,
-                                task6 INTEGER NULL,
-                                task7 INTEGER NULL,
-                                task8 INTEGER NULL,
-                                task9 INTEGER NULL,
-                                task10 INTEGER NULL,
-                                task11 INTEGER NULL,
-                                task12 INTEGER NULL,
-                                task13 INTEGER NULL,
-                                task14 INTEGER NULL)
-                    """,
-        )
-        for commands in command1:
-            cur.execute(commands)
-        print("Command 1 success!")
         with open(configdualbot.TASKSTODO_CSV, 'r') as f:
             reader = csv.reader(f, delimiter=',')
             for row in reader:
-                print (f"{row} + {row[0]}")
+                print (f"{row[0]}, {row[1]}")
                 cur.execute(
                     f"""
                     INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
                     VALUES ('{row[0]}','{row[1]}','{row[2]}','{row[3]}','{row[4]}','{row[5]}','{row[6]}','{row[7]}','{row[8]}','{row[9]}','{row[10]}','{row[11]}','{row[12]}','{row[13]}','{row[14]}')
-                    ON CONFLICT DO NOTHING
+                    ON CONFLICT (playerusername) DO UPDATE SET task1 = '{row[1]}', task2 = '{row[2]}', task3 = '{row[3]}', task4 = '{row[4]}', task5 = '{row[5]}', task6 = '{row[6]}', task7 =
+                    '{row[7]}', task8 = '{row[8]}', task9 = '{row[9]}', task10 = '{row[10]}', task11 = '{row[11]}', task12 = '{row[12]}', task13 = '{row[13]}', task14 = '{row[14]}';
                     """
-                )
+##ALTERNATIVELY, THE CODE BELOW ALSO WORKS
+                    # f"""
+                    # UPDATE playertaskstodo SET
+                    # task1 = '{row[1]}', task2 = '{row[2]}', task3 = '{row[3]}', task4 = '{row[4]}', task5 = '{row[5]}', task6 = '{row[6]}', task7 =
+                    # '{row[7]}', task8 = '{row[8]}', task9 = '{row[9]}', task10 = '{row[10]}', task11 = '{row[11]}', task12 = '{row[12]}', task13 = '{row[13]}', task14 = '{row[14]}'
+                    # WHERE playerusername = '{row[0]}';
+                    # INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
+                    # SELECT '{row[0]}','{row[1]}','{row[2]}','{row[3]}','{row[4]}','{row[5]}','{row[6]}','{row[7]}','{row[8]}','{row[9]}','{row[10]}','{row[11]}','{row[12]}','{row[13]}','{row[14]}'
+                    # WHERE NOT EXISTS (SELECT 1 FROM playertaskstodo WHERE playerusername =  '{row[0]}');
+                    # """
+                ) #### NOTE: ON DUPLICATE KEY UPDATE is SQL command
         print(f"{configdualbot.TASKSTODO_CSV} Dump onto SQL success!")
         # close communication with the PostgreSQL database server
         cur.close()
