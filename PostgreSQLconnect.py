@@ -126,7 +126,6 @@ def create_sql_players():
 
 
 
-
 def loadPlayers_fromSQL(players: dict): ##NOTE: this also loads the chat ids from playerchatids SQL
     command = (
         f"""
