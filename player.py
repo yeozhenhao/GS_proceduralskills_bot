@@ -38,7 +38,8 @@ playertasks = {"1": "1. Arterial blood gas",
 
 tasksinfo = {"*": "<b>*</b> - These procedures can be done in clinic; bedside arterial Doppler - vascular clinic",
              "**": "<b>**</b> - Blood transfusion can be completed by participating in checking patient identity/blood pack identity with doctor/nurse – not necessarily connecting-up the blood transfusion",
-             "***": "<b>***</b> - only need to observe. Note that endoscopy is not included this year because of COVID19 restrictions."}
+             "***": "<b>***</b> - only need to observe. Note that endoscopy is not included this year because of COVID19 restrictions.",
+             "protip1": "<b>Pro tip</b> - you need the Patient's age, gender and Supervisor's name when submitting on entrada. You may want to type those in immediately after completing a task in the bot's chat to keep record."}
 
 class Player():
     def __init__(self):
