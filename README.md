@@ -35,7 +35,7 @@ and the tasks list in the bot needs to be updated\
 
 ## About this project
 - This bot was hosted on Heroku server and connected to a PostgreSQL database to save the
-data for each user after the bot goes to sleep on Heroku
+data for each user after the bot goes to sleep on Heroku server after 30 minutes of inactivity
 ####
 - coded SQL language to enable updating of the user data on PostgreSQL database\
 ![](botPics/sampleSQL.png)\
