@@ -21,9 +21,9 @@ and the tasks list in the bot needs to be updated\
 ![](botPics/gamemastercommand.png)\
 ***Commands that can be used by the Bot creator. Anyone else using the command will be denied by the bot.***
 **Avaiable commands:**
-> /downloadtaskstodo - downloads taskstodo SQL database into local CSV\
+> /downloadtaskstodo - downloads taskstodo SQL database into local CSV
 > 
-> /savetaskstodo - uploads data from bot into taskstodo SQL database\
+> /savetaskstodo - uploads data from bot into taskstodo SQL database
 >
 > /reloadtaskstodo - uploads data from local JSON into taskstodo SQL database
 
