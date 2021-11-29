@@ -1,19 +1,18 @@
 # yeozhenhao's tasks bot for NUS Medicine GS Posting
 ## Features
 - Keep track of the Procedural Skills you have done during your
-General Surgery posting in NUS Medicine!
-  - Keeps track of completion of tasks
+General Surgery posting in NUS Medicine! Shows you the number of tasks to be done, specific to each user (as user data are stored in a PostgreSQL database)
+![](botPics/startbot.jpg)\
+***Starting the bot & clicking "My Tasks" button will show you the tasks to do.***
+- Keeps track of completion of tasks
 ![](botPics/completetask.png)\
 ***Completing tasks. The number of times completed must be an integer >0. Type the Task no. followed by the number of times you've completed the task.***
-  - Keeps track of adding more tasks
+- Keeps track of adding more tasks
 ![](botPics/addtask.png)\
 ***Adding tasks. The add value must be an integer >0. Type the Task no. followed by the number of times you want to add to the task.***
 - Shows you extra information for some of the tasks
 ![](botPics/tasksinfo.png)\
 ***See the Tasks info within the bot!***
-- Shows you the number of tasks to be done, specific to each user (as user data are stored in a PostgreSQL database)
-![](botPics/startbot.jpg)\
-***Starting the bot & clicking "My Tasks" button will show you the tasks to do.***
 - As in my Angels & Mortals bot, users can send support messages by clicking "Feedback to Bot creator" if the tasks change in a few years later (set by NUS)
 and the tasks list in the bot needs to be updated
 ![](botPics/supportmessage.png)\
