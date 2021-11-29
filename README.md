@@ -12,7 +12,7 @@ General Surgery posting in NUS Medicine!
 ![](botPics/tasksinfo.png)\
 ***See the Tasks info within the bot!***
 - Shows you the number of tasks to be done, specific to each user (as user data are stored in a PostgreSQL database)
-![](botPics/startbot.png)\
+![](botPics/startbot.jpg)\
 ***Starting the bot & clicking "My Tasks" button will show you the tasks to do.***
 - As in my Angels & Mortals bot, users can send support messages by clicking "Feedback to Bot creator" if the tasks change in a few years later (set by NUS)
 and the tasks list in the bot needs to be updated
