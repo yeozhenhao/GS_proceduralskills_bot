@@ -22,7 +22,7 @@ and the tasks list in the bot needs to be updated\
 ![](botPics/supportmessage.png)\
 ***SUPPORT message sent to Bot creator (set by chat id) within the bot whenever a feedback is submitted***
 ####
-- As in my Angels & Mortals bot, the Bot creator (set by chat id) can use a few commands (shown below) just in case any issue arises. But they are not essential in running of the bot.\ 
+- As in my Angels & Mortals bot, the Bot creator (set by chat id) can use a few commands (shown below) just in case any issue arises. But they are not essential in running of the bot. 
 ![](botPics/gamemastercommand.png)\
 ***Commands that can be used by the Bot creator. Anyone else using the command will be denied by the bot.***
 ####
