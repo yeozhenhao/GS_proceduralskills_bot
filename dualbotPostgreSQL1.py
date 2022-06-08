@@ -46,7 +46,7 @@ def start_Angelbot(update: Update, context: CallbackContext) -> None:
     if players[playerName].username is None:
         players[playerName].username = playerName
         players[playerName].taskstodo = [playerName, 1, 2, 2, 2, 1, 1, 3, 1, 1, 2, 3, 1, 1, 1]
-        update.message.reply_text(f'Welcome!')
+        update.message.reply_text(f'Welcome new user! I just created a new profile in the database with your default tasks.')
 
     send_menu_Angel = [
         [InlineKeyboardButton(f"My Tasks", callback_data='mytasks')],
@@ -98,24 +98,29 @@ def savetaskstodo_toCSV_command(update: Update, context: CallbackContext) -> Non
 
 
 def viewmyTasks (update: Update, context: CallbackContext):
+    update.callback_query.answer(cache_time=1)
     playerName = update.callback_query.message.chat.username.lower()
     update.callback_query.message.reply_text(f"{messagesdualbot.YOUR_CURRENT_TASKS(playerName, players)}\n\n{messagesdualbot.START_AGAIN}", parse_mode=ParseMode.HTML)
     return ConversationHandler.END
 
 def viewTasksinfo (update: Update, context: CallbackContext):
+    update.callback_query.answer(cache_time=1)
     update.callback_query.message.reply_text(messagesdualbot.gettasksinfo, parse_mode=ParseMode.HTML)
     return CHOOSING
 
 def viewaddTasks (update: Update, context: CallbackContext):
+    update.callback_query.answer(cache_time=1)
     update.callback_query.message.reply_text(messagesdualbot.getaddTasksMessage)
     return ADDTASKS
 
 
 def viewcompleteTasks (update: Update, context: CallbackContext):
+    update.callback_query.answer(cache_time=1)
     update.callback_query.message.reply_text(messagesdualbot.getcompleteTasksMessage)
     return COMPLETETASKS
 
 def viewNumberofCompletedTasks (update: Update, context: CallbackContext):
+    update.callback_query.answer(cache_time=1)
     playerName = update.callback_query.message.chat.username.lower()
     update.callback_query.message.reply_text(f"{messagesdualbot.TASKS_COMPLETED(playerName, players)}\n\n{messagesdualbot.START_AGAIN}",parse_mode=ParseMode.HTML)
     return ConversationHandler.END
@@ -193,6 +198,7 @@ GAME MASTER SUPPORT
 angelbot = telegram.Bot(ANGEL_BOT_TOKEN)
 
 def startGameMasterSupport (update: Update, context: CallbackContext):
+    update.callback_query.answer(cache_time=1)
     playerName = update.callback_query.message.chat.username.lower()
     if configdualbot.gamemasterchatid is None:
         update.callback_query.message.reply_text(f"Sorry the gamemaster is not available. Please try again later.")
