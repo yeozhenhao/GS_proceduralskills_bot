@@ -39,7 +39,9 @@ def YOUR_CURRENT_TASKS (playerName, players: dict):
     f'\n{playertasks["11"]} <b>x{players[playerName].taskstodo[11]}</b>' \
     f'\n{playertasks["12"]} <b>x{players[playerName].taskstodo[12]}</b>' \
     f'\n{playertasks["13"]} <b>x{players[playerName].taskstodo[13]}</b>' \
-    f'\n{playertasks["14"]} <b>x{players[playerName].taskstodo[14]}</b>'
+    f'\n{playertasks["14"]} <b>x{players[playerName].taskstodo[14]}</b>' \
+    f'\n{playertasks["15"]} <b>x{players[playerName].taskstodo[15]}</b>' \
+    f'\n{playertasks["16"]} <b>x{players[playerName].taskstodo[16]}</b>'
 
 def TASKS_COMPLETED (playerName, players: dict):
     return f'Your completed tasks:'\
@@ -56,7 +58,9 @@ def TASKS_COMPLETED (playerName, players: dict):
     f'\n{playertasks["11"]} <b>x{3 - players[playerName].taskstodo[11]}</b>' \
     f'\n{playertasks["12"]} <b>x{1 - players[playerName].taskstodo[12]}</b>' \
     f'\n{playertasks["13"]} <b>x{1 - players[playerName].taskstodo[13]}</b>' \
-    f'\n{playertasks["14"]} <b>x{1 - players[playerName].taskstodo[14]}</b>'
+    f'\n{playertasks["14"]} <b>x{1 - players[playerName].taskstodo[14]}</b>' \
+    f'\n{playertasks["15"]} <b>x{1 - players[playerName].taskstodo[15]}</b>' \
+    f'\n{playertasks["16"]} <b>x{1 - players[playerName].taskstodo[16]}</b>'
 
 
 ERROR_CHAT_ID = f'Sorry an error occurred please type /start again'

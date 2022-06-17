@@ -45,7 +45,7 @@ def start_Angelbot(update: Update, context: CallbackContext) -> None:
     playerName = update.message.chat.username.lower()
     if players[playerName].username is None:
         players[playerName].username = playerName
-        players[playerName].taskstodo = [playerName, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1]
+        players[playerName].taskstodo = [playerName, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 1, 3, 1, 1, 1]
         update.message.reply_text(f'Welcome new user! I just created a new profile in the database with your default tasks.')
 
     send_menu_Angel = [

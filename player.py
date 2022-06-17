@@ -47,22 +47,24 @@ class Player():
     def __init__(self):
         self.username = None
         self.name = None ## not used
-        # self.tasks = {"1", "1. Arterial blood gas",
-        #               "2", "2. Aseptic Blood Culture*",
-        #               "3", "3. Basic processes in theatre (maintain sterility, time out process, surgical gowning)",
-        #               "4", "4. Basic suturing skills",
-        #               "5", "5. Blood transfusion**",
-        #               "6", "6. Dispose of needles and sharps safely after venepuncture, Intravenous (IV) cannulation and other invasive procedures***",
-        #               "7", "7. Hand wash and Scrub",
-        #               "8", "8. Parenteral administration of drugs [including Intravenous (IV)/ Intramuscular (IM)/ Subcutaneous (SC) injections]",
-        #               "9", "9. Removal of surgical drains",
-        #               "10", "10. Urinary catheterization",
-        #               "11", "11. Venepuncture*",
-        #               "12", "12. Bedside arterial doppler*",
-        #               "13", "13. Central line removal [includes Care of Peripherally Inserted Central Catheter (PICC)]",
-        #               "14", "14. Incision and Drainage (abscess)",
+        # self.tasks = {"1": "1. Urinary catheterization",
+        #               "2": "2. Basic suturing skills (Wound suturing & Closure)",
+        #               "3": "3. Basic processes in theatre (Scrubbing, time out process, surgical gowning)",
+        #               "4": "4. Dispose of needles and sharps safely after venepuncture, Intravenous (IV) cannulation<b>***</b>",
+        #               "5": "5. Removal of surgical drains",
+        #               "6": "6. Parenteral administration of drugs [e.g. IV/IM/SC injections of local anaesthetic]",
+        #               "7": "7. Insertion of Nasogastric Tube (NGT) ",
+        #               "8": "8. Stoma care",
+        #               "9": "9. Wound Care and Dressing",
+        #               "10": "10. Arterial blood gas",
+        #               "11": "11. Aseptic Blood Culture<b>*</b>",
+        #               "12": "12. Bedside arterial doppler<b>*</b>",
+        #               "13": "13. Venepuncture<b>*</b>",
+        #               "14": "14. Blood transfusion<b>**</b>",
+        #               "15": "15. Central line removal [includes Care of Peripherally Inserted Central Catheter (PICC)]<b>***</b>",
+        #               "16": "16. Incision and Drainage (abscess)<b>***</b>",
         #               }
-        self.taskstodo = [0, 1, 2, 2, 2, 1, 1, 3, 1, 1, 2, 3, 1, 1, 1]
+        self.taskstodo = [0, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 1, 3, 1, 1, 1]
 
 '''
 VERY VERY IMPT: 1st Column in CSV is the Player, 2nd Column is his/her Angel, 3rd Column is his/her Mortal, and the other columns must match the details of the Player in the 1st Column
