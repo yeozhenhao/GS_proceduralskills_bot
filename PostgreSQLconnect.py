@@ -103,7 +103,10 @@ def create_sql_players():
                     task11 INTEGER NULL,
                     task12 INTEGER NULL,
                     task13 INTEGER NULL,
-                    task14 INTEGER NULL)
+                    task14 INTEGER NULL,
+                    task15 INTEGER NULL,
+                    task16 INTEGER NULL
+                    )
         """,
     )
     try:
@@ -168,10 +171,10 @@ def saveplayertaskstodo_toSQL(players: dict): ##USE THIS INSTEAD OF ABOVE FUNCTI
             x = players[k].taskstodo
             command2 = (
                 f"""
-                INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
+                INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16)
                 VALUES ({"'" + "','".join(map(str, x)) + "'"})
                 ON CONFLICT (playerusername) DO UPDATE 
-                SET (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
+                SET (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16)
                 = ({"'" + "','".join(map(str, x)) + "'"});
                 """
             )
@@ -226,19 +229,19 @@ def import_playertaskstodo_fromCSV_toSQL(): ##JUST IN CASE FUNCTION
                 print (f"{row[0]}, {row[1]}")
                 cur.execute(
                     f"""
-                    INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
-                    VALUES ('{row[0]}','{row[1]}','{row[2]}','{row[3]}','{row[4]}','{row[5]}','{row[6]}','{row[7]}','{row[8]}','{row[9]}','{row[10]}','{row[11]}','{row[12]}','{row[13]}','{row[14]}')
+                    INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16)
+                    VALUES ('{row[0]}','{row[1]}','{row[2]}','{row[3]}','{row[4]}','{row[5]}','{row[6]}','{row[7]}','{row[8]}','{row[9]}','{row[10]}','{row[11]}','{row[12]}','{row[13]}','{row[14]}','{row[15]}','{row[16]}')
                     ON CONFLICT (playerusername) DO UPDATE SET task1 = '{row[1]}', task2 = '{row[2]}', task3 = '{row[3]}', task4 = '{row[4]}', task5 = '{row[5]}', task6 = '{row[6]}', task7 =
-                    '{row[7]}', task8 = '{row[8]}', task9 = '{row[9]}', task10 = '{row[10]}', task11 = '{row[11]}', task12 = '{row[12]}', task13 = '{row[13]}', task14 = '{row[14]}';
+                    '{row[7]}', task8 = '{row[8]}', task9 = '{row[9]}', task10 = '{row[10]}', task11 = '{row[11]}', task12 = '{row[12]}', task13 = '{row[13]}', task14 = '{row[14]}', task15 = '{row[15]}', task16 = '{row[16]}';
                     """
 ##ALTERNATIVELY, THE CODE BELOW ALSO WORKS
                     # f"""
                     # UPDATE playertaskstodo SET
                     # task1 = '{row[1]}', task2 = '{row[2]}', task3 = '{row[3]}', task4 = '{row[4]}', task5 = '{row[5]}', task6 = '{row[6]}', task7 =
-                    # '{row[7]}', task8 = '{row[8]}', task9 = '{row[9]}', task10 = '{row[10]}', task11 = '{row[11]}', task12 = '{row[12]}', task13 = '{row[13]}', task14 = '{row[14]}'
+                    # '{row[7]}', task8 = '{row[8]}', task9 = '{row[9]}', task10 = '{row[10]}', task11 = '{row[11]}', task12 = '{row[12]}', task13 = '{row[13]}', task14 = '{row[14]}', task15 = '{row[15]}', task16 = '{row[16]}'
                     # WHERE playerusername = '{row[0]}';
-                    # INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14)
-                    # SELECT '{row[0]}','{row[1]}','{row[2]}','{row[3]}','{row[4]}','{row[5]}','{row[6]}','{row[7]}','{row[8]}','{row[9]}','{row[10]}','{row[11]}','{row[12]}','{row[13]}','{row[14]}'
+                    # INSERT INTO playertaskstodo (playerusername,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16)
+                    # SELECT '{row[0]}','{row[1]}','{row[2]}','{row[3]}','{row[4]}','{row[5]}','{row[6]}','{row[7]}','{row[8]}','{row[9]}','{row[10]}','{row[11]}','{row[12]}','{row[13]}','{row[14]}','{row[15]}','{row[16]}'
                     # WHERE NOT EXISTS (SELECT 1 FROM playertaskstodo WHERE playerusername =  '{row[0]}');
                     # """
                 ) #### NOTE: ON DUPLICATE KEY UPDATE is SQL command
