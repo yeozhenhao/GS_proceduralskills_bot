@@ -9,7 +9,7 @@ gettasksinfo = f'{tasksinfo["*"]}\n\n' \
                f'{tasksinfo["protip1"]}\n\n'
 
 MESSAGE_SENT = 'Message sent!'
-MESSAGE_SENT_TO_GAMEMASTER = 'Message sent to the Game Master! You may now click other buttons in the main menu.'
+MESSAGE_SENT_TO_GAMEMASTER = 'Message sent to the Bot Creator! You may now click other buttons in the main menu.'
 HELP_TEXT_ANGEL = (
     f'This bot helps to keep track of the procedural tasks in GS.\n')
 
